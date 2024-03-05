@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입 - WNYFLIX</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: "Noto Sans CJK KR";
+            font-style: normal;
+        }
+
+        body {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 670px;
+            height: 1100px;
+            margin-top: 60px;
+            margin-bottom: 60px;
+            background: #ffffff;
+            border: 1px solid #a89b9b;
+            box-shadow: 7px 7px 39px rgba(0, 0, 0, 0.51);
+            border-radius: 20px;
+        }
+
+        .member-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 470px;
+            height: 818px;
+            margin-top: 72px;
+            margin-bottom: 70px;
+        }
+
+        .header {
+            width: 466px;
+            height: 94px;
+            font-weight: 700;
+            font-size: 32px;
+            line-height: 47px;
+            color: #000000;
+        }
+
+        .user-info {
+            margin-top: 39px;
+        }
+
+        .user-info div {
+            margin-top: 21px;
+        }
+
+        .user-info input {
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 24px;
+            color: #000000;
+            border: none;
+            border-bottom: 1px solid #cfcfcf;
+            width: 466px;
+            margin-top: 21px;
+        }
+
+        .user-info-email input {
+            border-bottom: 1px solid #8a8a8a;
+        }
+
+        .gender {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 140px;
+            height: 23.94px;
+            margin-top: 50px;
+        }
+
+        .gender input {
+            width: 20px;
+            height: 19.95px;
+            background: #ebebeb;
+            border: 1px solid #d2d2d2;
+        }
+
+        .gender label {
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 24px;
+        }
+
+
+        .btn {
+            display: flex;
+            flex-direction: column;
+            margin-top: 60px;
+            width: 470px;
+            height: 106px;
+            border-top: 1px solid #e6e6e6;
+        }
+
+        button {
+            margin-top: 30px;
+            width: 470px;
+            height: 75px;
+            font-weight: 400;
+            font-size: 18px;
+            line-height: 27px;
+            text-align: center;
+            color: #000000;
+            background: #ffffff;
+            border: 1px solid #000000;
+            border-radius: 10px;
+        }
+
+        button:hover {
+            background: #f63737;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 18px;
+            color: #000000;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+<a class="back-button" th:href="@{/}">
+    뒤로가기
+</a>
+<form action="/join" method="POST" class="joinForm">
+
+    <div class="container">
+        <div class="member-container">
+            <div class="header">
+                <div>회원 가입을 위해</div>
+                <div>정보를 입력해주세요</div>
+            </div>
+            <div class="user-info">
+                <div class="user-info-name">
+                    <div>* 이름</div>
+                    <input type="text" name="name"/>
+                </div>
+                <div class="user-info-id">
+                    <div>* 아이디</div>
+                    <input type="text" name="userId"/>
+                </div>
+                <div class="user-info-pw">
+                    <div>* 비밀번호</div>
+                    <input type="password" name="password" />
+                </div>
+                <div class="user-info-email">
+                    <div>* 이메일</div>
+                    <input type="email" name="email"/>
+                </div>
+                <div class="user-info-tel">
+                    <div>* 전화번호</div>
+                    <input type="tel" name="phone"/>
+                </div>
+                <div class="user-info-country">
+                    <div>* 국가</div>
+                    <select name="country_name" id="country_name">
+                        <option value="네덜란드">네덜란드</option>
+                        <option value="노르웨이">노르웨이</option>
+                        <option value="대한민국">대한민국</option>
+                        <option value="독일">독일</option>
+                        <option value="미국">미국</option>
+                        <option value="멕시코">멕시코</option>
+                        <option value="벨기에">벨기에</option>
+                        <option value="브라질">브라질</option>
+                        <option value="베트남">베트남</option>
+                        <option value="사우디아라비아">사우디아라비아</option>
+                        <option value="싱가포르">싱가포르</option>
+                        <option value="스페인">스페인</option>
+                        <option value="스웨덴">스웨덴</option>
+                        <option value="스위스">스위스</option>
+                        <option value="아랍에미레이트">아랍에미레이트</option>
+                        <option value="인도">인도</option>
+                        <option value="영국">영국</option>
+                        <option value="일본">일본</option>
+                        <option value="이탈리아">이탈리아</option>
+                        <option value="중국">중국</option>
+                        <option value="캐나다">캐나다</option>
+                        <option value="프랑스">프랑스</option>
+                        <option value="터키">터키</option>
+                        <option value="폴란드">폴란드</option>
+                        <option value="포르투갈">포르투갈</option>
+                        <option value="호주">호주</option>
+                    </select>
+                </div>
+                <div class="user-info-age">
+                    <div>* 나이</div>
+                    <select name="age" id="age">
+                        <option th:each="number : ${#numbers.sequence(15, 80)}" th:value="${number}" th:text="${number}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="gender">
+                <input type="radio" name="gender" value="여성"/>
+                <label>여성</label>
+                <input type="radio" name="gender" value="남성"/>
+                <label>남성</label>
+            </div>
+            <div class="btn">
+                <button type="submit">가입하기</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+</body>
+
+</html>

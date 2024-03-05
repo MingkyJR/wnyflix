@@ -1,0 +1,297 @@
+//콘텐츠 데이터 매핑
+PUT wy_wnyflix_data
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "nori_analyze": {
+          "tokenizer": "my_nori_tokenizer",
+          "filter": [
+            "my_pos_f"
+          ]
+        }
+      },
+      "tokenizer": {
+        "my_nori_tokenizer": {
+          "type": "nori_tokenizer",
+          "decompound_mode": "mixed",
+          "user_dictionary_rules": [
+            "귀멸"
+          ]
+        }
+      },
+      "filter": {
+        "my_pos_f": {
+          "type": "nori_part_of_speech",
+          "stoptags": [
+            "NR",
+            "J"
+          ]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "backdrop_path": {
+        "type": "keyword"
+      },
+      "cast": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          },
+          "sayt": {
+            "type": "search_as_you_type"
+          }
+        }
+      },
+      "contents_type": {
+        "type": "keyword"
+      },
+      "director": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      },
+      "genres": {
+        "type": "keyword"
+      },
+      "id": {
+        "type": "long"
+      },
+      "keywords": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      },
+      "original_title": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          },
+          "sayt": {
+            "type": "search_as_you_type"
+          },
+          "nori": {
+            "type": "text",
+            "analyzer": "nori_analyze"
+          }
+        }
+      },
+      "overview": {
+        "type": "text"
+      },
+      "popularity": {
+        "type": "float"
+      },
+      "poster_path": {
+        "type": "keyword"
+      },
+      "release_date": {
+        "type": "date"
+      },
+      "title": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          },
+          "sayt": {
+            "type": "search_as_you_type"
+          },
+          "nori": {
+            "type": "text",
+            "analyzer": "nori_analyze"
+          }
+        }
+      },
+      "vote_average": {
+        "type": "float"
+      },
+      "vote_count": {
+        "type": "long"
+      }
+    }
+  }
+}
+
+------------------------------------------------------------------------------------------
+
+PUT _scripts/wy_search_title
+{
+  "script": {
+    "lang": "mustache",
+    "source": {
+      "query": {
+        "bool": {
+          "must": [
+            {
+              "multi_match": {
+                "query": "{{query_string}}",
+                "fields": [
+                  "title",
+                  "original_title",
+                  "overview",
+                  "cast",
+                  "director",
+                  "terms"
+                ]
+              }
+            }
+          ],
+          "should": [
+            {
+              "match": {
+                "original_title": "{{query_string}}"
+              }
+            }
+          ]
+        }
+      },
+      "aggs": {
+        "genres_agg": {
+          "terms": {
+            "field": "terms"
+          }
+        }
+      },
+      "sort": [
+        {
+          "popularity": {
+            "order": "desc"
+          }
+        }
+      ],
+      "from": "{{from}}",
+      "size": "{{size}}"
+    }
+  }
+}
+
+PUT _scripts/wy_search_cast
+{
+  "script": {
+    "lang": "mustache",
+    "source": {
+      "query": {
+        "bool": {
+          "must": [
+            {
+              "multi_match": {
+                "query": "{{query_string}}",
+                "fields": [
+                  "title",
+                  "original_title",
+                  "overview",
+                  "cast",
+                  "director",
+                  "terms"
+                ]
+              }
+            }
+          ],
+          "should": [
+            {
+              "term": {
+                "cast": {
+                  "value": "{{query_string}}"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "aggs": {
+        "genres_agg": {
+          "terms": {
+            "field": "terms"
+          }
+        }
+      },
+      "from": "{{from}}",
+      "size": "{{size}}"
+    }
+  }
+}
+
+PUT _scripts/wy_day_top_query
+{
+  "script": {
+    "lang": "mustache",
+    "source": {
+      "size": 0,
+      "query": {
+        "range": {
+          "@timestamp": {
+            "gte": "now-1d"
+          }
+        }
+      },
+      "aggs": {
+        "TOP10": {
+          "terms": {
+            "field": "query",
+            "size": 10
+          }
+        }
+      }
+    }
+  }
+}
+
+GET wy_movie_data/_search/template
+{
+  "id": "wy-search-template",
+  "params": {
+    "query_string": "분노의 질주",
+    "from": 0,
+    "size": 10
+  }
+}
+
+-------------------------------------------------------------------------------------------
+GET wy_movie_data/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "multi_match": {
+            "query": "Dwayne Johnson",
+            "fields": [
+              "title",
+              "original_title",
+              "overview",
+              "cast",
+              "director",
+              "terms"
+            ]
+          }
+        }
+      ],
+      "should": [
+        {
+          "match": {
+            "cast": "Dwayne Johnson"
+          }
+        }
+      ]
+    }
+  },
+  "aggs": {
+    "genres_agg": {
+      "terms": {
+        "field": "terms"
+      }
+    }
+  }
+}

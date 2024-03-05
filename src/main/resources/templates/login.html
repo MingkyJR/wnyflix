@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - WNYFLIX</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .login-container h2 {
+            margin-bottom: 20px;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .login-btn {
+            background-color: #e50914;
+            color: #fff;
+            padding: 10px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .login-btn:hover {
+            background-color: #ff3f2e;
+        }
+
+        .signup-link {
+            margin-top: 20px;
+            font-size: 1rem;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 18px;
+            color: #ffffff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<a class="back-button" th:href="@{/}">
+    뒤로가기
+</a>
+<div class="login-container">
+    <h2>Login to WNYFLIX</h2>
+    <form class="login-form" action="/login" method="post">
+        <div class="form-group">
+            <label for="userId">아이디:</label>
+            <input type="text" id="userId" name="userId" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">비밀번호:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <div th:if="${not #lists.isEmpty(error)}">
+            <span th:text="${error}"></span>
+
+        </div>
+
+
+        <button type="submit" class="login-btn">로그인</button>
+    </form>
+
+    <a href="/join" class="signup-link">아직 계정이 없으신가요? 지금 가입하세요!</a>
+</div>
+</body>
+</html>
