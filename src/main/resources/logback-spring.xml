@@ -5,10 +5,14 @@
     <property name="LOGS_ABSOLUTE_PATH" value="./logback-logs" />
 
     <!-- log 변수 값 설정 -->
+<!--    <property name="CONSOLE_LOG_PATTERN"-->
+<!--              value="[%d{yyyy-MM-dd HH:mm:ss}:%-3relative]  %clr(%-5level) %clr(${PID:-}){magenta} %clr(-&#45;&#45;){faint} %clr([%15.15thread]){faint} [%X{trace.id}] [%X{transaction.id}] [%X{error.id}] %clr(%-40.40logger{36}){cyan} %clr(:){faint} %msg%n"/>-->
+<!--    <property name="FILE_LOG_PATTERN"-->
+<!--              value="[%d{yyyy-MM-dd HH:mm:ss}:%-3relative] %-5level ${PID:-} -&#45;&#45; [%15.15thread] [%X{trace.id}] [%X{transaction.id}] [%X{error.id}] %-40.40logger{36} : %msg%n"/>-->
     <property name="CONSOLE_LOG_PATTERN"
-              value="[%d{yyyy-MM-dd HH:mm:ss}:%-3relative]  %clr(%-5level) %clr(${PID:-}){magenta} %clr(---){faint} %clr([%15.15thread]){faint} [%X{trace.id}] [%X{transaction.id}] [%X{error.id}] %clr(%-40.40logger{36}){cyan} %clr(:){faint} %msg%n"/>
+              value="[%d{yyyy-MM-dd HH:mm:ss}:%-3relative]  %clr(%-5level) %clr(${PID:-}){magenta} %clr(---){faint} %clr([%15.15thread]){faint} %clr(%-40.40logger{36}){cyan} %clr(:){faint} %msg%n"/>
     <property name="FILE_LOG_PATTERN"
-              value="[%d{yyyy-MM-dd HH:mm:ss}:%-3relative] %-5level ${PID:-} --- [%15.15thread] [%X{trace.id}] [%X{transaction.id}] [%X{error.id}] %-40.40logger{36} : %msg%n"/>
+              value="[%d{yyyy-MM-dd HH:mm:ss}:%-3relative] %-5level ${PID:-} --- [%15.15thread] %-40.40logger{36} : %msg%n"/>
     <!-- 콘솔(STDOUT)에 log 기록 -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
@@ -27,6 +31,15 @@
         </encoder>
     </appender>
 
+    <appender name="OpenTelemetry"
+              class="io.opentelemetry.instrumentation.logback.appender.v1_0.OpenTelemetryAppender">
+        <captureExperimentalAttributes>false</captureExperimentalAttributes>
+        <captureCodeAttributes>true</captureCodeAttributes>
+        <captureMarkerAttribute>true</captureMarkerAttribute>
+        <captureKeyValuePairAttributes>true</captureKeyValuePairAttributes>
+        <captureLoggerContext>true</captureLoggerContext>
+        <captureMdcAttributes>*</captureMdcAttributes>
+    </appender>
     <!-- log root 레벨 설정 (logging.level.root=info)-->
 <!--    <logger name="com.wny.wnyflix" level="trace">-->
 <!--        <appender-ref ref="CONSOLE" />-->
@@ -35,6 +48,7 @@
         <!--     참조할 appender 설정 - CONSOLE -->
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="FILE" />
+        <appender-ref ref="OpenTelemetry"/>
     </root>
     <!-- log 레벨 설정 (org.springframework.web=debug)-->
 
