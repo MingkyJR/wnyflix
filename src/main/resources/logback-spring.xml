@@ -31,15 +31,15 @@
         </encoder>
     </appender>
 
-    <appender name="OpenTelemetry"
-              class="io.opentelemetry.instrumentation.logback.appender.v1_0.OpenTelemetryAppender">
-        <captureExperimentalAttributes>false</captureExperimentalAttributes>
-        <captureCodeAttributes>true</captureCodeAttributes>
-        <captureMarkerAttribute>true</captureMarkerAttribute>
-        <captureKeyValuePairAttributes>true</captureKeyValuePairAttributes>
-        <captureLoggerContext>true</captureLoggerContext>
-        <captureMdcAttributes>*</captureMdcAttributes>
-    </appender>
+<!--    <appender name="OpenTelemetry"-->
+<!--              class="io.opentelemetry.instrumentation.logback.appender.v1_0.OpenTelemetryAppender">-->
+<!--        <captureExperimentalAttributes>false</captureExperimentalAttributes>-->
+<!--        <captureCodeAttributes>true</captureCodeAttributes>-->
+<!--        <captureMarkerAttribute>true</captureMarkerAttribute>-->
+<!--        <captureKeyValuePairAttributes>true</captureKeyValuePairAttributes>-->
+<!--        <captureLoggerContext>true</captureLoggerContext>-->
+<!--        <captureMdcAttributes>*</captureMdcAttributes>-->
+<!--    </appender>-->
     <!-- log root 레벨 설정 (logging.level.root=info)-->
 <!--    <logger name="com.wny.wnyflix" level="trace">-->
 <!--        <appender-ref ref="CONSOLE" />-->
@@ -48,7 +48,7 @@
         <!--     참조할 appender 설정 - CONSOLE -->
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="FILE" />
-        <appender-ref ref="OpenTelemetry"/>
+<!--        <appender-ref ref="OpenTelemetry"/>-->
     </root>
     <!-- log 레벨 설정 (org.springframework.web=debug)-->
 

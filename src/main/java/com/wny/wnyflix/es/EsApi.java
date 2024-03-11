@@ -13,6 +13,9 @@ import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.json.JsonData;
 import com.wny.wnyflix.movie.domain.Contents;
 import com.wny.wnyflix.movie.domain.Terms;
+import io.opentelemetry.api.trace.SpanKind;
+import io.opentelemetry.instrumentation.annotations.WithSpan;
+import lombok.With;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +32,7 @@ public class EsApi {
     String index_name = "wy_wnyflix_data";
     String searchTemplateTitle = "wy_search_title";
     String searchTemplateCast = "wy_search_cast";
+
 
     public List<Contents> esGetContentsList() {
         List<Contents> contentsList = new ArrayList<>();
@@ -214,6 +218,7 @@ public class EsApi {
 
     }
 
+
     public List<Terms> esGetTopQuery() {
         List<Terms> topQueryTermsList = new ArrayList<>();
         try {
@@ -245,6 +250,7 @@ public class EsApi {
 
     }
 
+    @WithSpan
     public List<Contents> esGetTopContentsList(String country_code) {
         List<Contents> topContentsList = new ArrayList<>();
         try {
@@ -263,7 +269,7 @@ public class EsApi {
                     .buckets().array();
             List<String> topPlayIds = new ArrayList<>();
             for (StringTermsBucket bucket: topContentsbuckets) {
-                log.debug("top_playId {} : {} ",bucket.key().stringValue(), bucket.docCount());
+                log.info("top_playId {} : {} ",bucket.key().stringValue(), bucket.docCount());
                 topPlayIds.add(bucket.key().stringValue());
             }
 
@@ -282,6 +288,7 @@ public class EsApi {
         return topContentsList;
     }
 
+    @WithSpan
     public List<Contents> esGetRecentContentsList() {
         List<Contents> recentContentsList = new ArrayList<>();
         try {
@@ -305,6 +312,7 @@ public class EsApi {
         return recentContentsList;
     }
 
+    @WithSpan
     public List<Contents> esGetPlayingContentsByUserId(String userId) {
         List<Contents> playingContentsList = new ArrayList<>();
         try {

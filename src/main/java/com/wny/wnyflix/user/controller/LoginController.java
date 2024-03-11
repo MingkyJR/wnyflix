@@ -9,9 +9,10 @@ import com.wny.wnyflix.es.EsClient;
 import com.wny.wnyflix.user.domain.CountryCode;
 import com.wny.wnyflix.user.domain.MemberForm;
 import com.wny.wnyflix.user.domain.User;
-import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.api.trace.Span;
-import io.opentelemetry.api.trace.Tracer;
+import io.opentelemetry.api.trace.SpanKind;
+import io.opentelemetry.instrumentation.annotations.SpanAttribute;
+import io.opentelemetry.instrumentation.annotations.WithSpan;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -118,6 +119,7 @@ public class LoginController {
 
         return "redirect:/movie";
     }
+
 
 
 }

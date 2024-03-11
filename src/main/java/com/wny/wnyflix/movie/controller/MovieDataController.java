@@ -9,6 +9,7 @@ import com.wny.wnyflix.movie.domain.Contents;
 import com.wny.wnyflix.movie.domain.Terms;
 import com.wny.wnyflix.movie.service.MovieService;
 import com.wny.wnyflix.user.domain.User;
+import io.opentelemetry.instrumentation.annotations.WithSpan;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -28,25 +29,38 @@ public class MovieDataController {
 
     private final MovieService movieService;
 
+
     @Autowired
     public MovieDataController(MovieService movieService) {
         this.movieService = movieService;
     }
 
+    @WithSpan
     @GetMapping("/movie")
     public String getMovieData(Model model, Locale locale, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        User user = (User)session.getAttribute("AUTHUSER");
-        List<Contents> topContentsList = movieService.getTopContentsList(user.getCountry_iso_code());
-        List<Contents> recentContentsList = movieService.getRecentContentsList();
-        List<Contents> playingContentsList = movieService.getPlayingContentsByUserId(user.getUserId());
-        log.info("playing : {}", playingContentsList.size());
-        List<Terms> topQuery = movieService.getTopQuery();
-        model.addAttribute("topContentsList", topContentsList);
-        model.addAttribute("topQueryTermsList", topQuery);
-        model.addAttribute("recentContentsList", recentContentsList);
-        model.addAttribute("playingContentsList", playingContentsList);
-        model.addAttribute("country", user.getCountry_name());
+
+//        Tracer tracer = OpenTelemetry.noop().getTracerProvider().get("wnyflix");
+//
+//        Span span = tracer.spanBuilder("getMovieData").startSpan();
+//        try {
+            HttpSession session = request.getSession();
+            User user = (User)session.getAttribute("AUTHUSER");
+            List<Contents> topContentsList = movieService.getTopContentsList(user.getCountry_iso_code());
+            log.info("topContents : {}", topContentsList.size());
+            List<Contents> recentContentsList = movieService.getRecentContentsList();
+            List<Contents> playingContentsList = movieService.getPlayingContentsByUserId(user.getUserId());
+            log.info("playing : {}", playingContentsList.size());
+            List<Terms> topQuery = movieService.getTopQuery();
+            model.addAttribute("topContentsList", topContentsList);
+            model.addAttribute("topQueryTermsList", topQuery);
+            model.addAttribute("recentContentsList", recentContentsList);
+            model.addAttribute("playingContentsList", playingContentsList);
+            model.addAttribute("country", user.getCountry_name());
+//        } finally {
+//            span.end();
+//
+//        }
+
 
         return "movieMain/movie";
     }
@@ -54,6 +68,7 @@ public class MovieDataController {
     @GetMapping("/contentInfo")
     public String contentInfo(Model model, String id) {
         Contents content = movieService.getContentsInfoById(id);
+        log.info("contentInfo : {}, {}", content.getId(), content.getOriginal_title());
         model.addAttribute("content", content);
         return "movieMain/contentInfo";
     }
@@ -71,7 +86,7 @@ public class MovieDataController {
         return result;
     }
 
-     @GetMapping("/putMovieData")
+    @GetMapping("/putMovieData")
     public String putMovieData(String type, int start, int end) {
         MovieApi movieApi = new MovieApi();
 
