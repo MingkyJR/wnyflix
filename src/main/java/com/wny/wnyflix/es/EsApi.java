@@ -13,9 +13,6 @@ import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.json.JsonData;
 import com.wny.wnyflix.movie.domain.Contents;
 import com.wny.wnyflix.movie.domain.Terms;
-import io.opentelemetry.api.trace.SpanKind;
-import io.opentelemetry.instrumentation.annotations.WithSpan;
-import lombok.With;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -250,7 +247,7 @@ public class EsApi {
 
     }
 
-    @WithSpan
+
     public List<Contents> esGetTopContentsList(String country_code) {
         List<Contents> topContentsList = new ArrayList<>();
         try {
@@ -288,7 +285,7 @@ public class EsApi {
         return topContentsList;
     }
 
-    @WithSpan
+
     public List<Contents> esGetRecentContentsList() {
         List<Contents> recentContentsList = new ArrayList<>();
         try {
@@ -312,7 +309,7 @@ public class EsApi {
         return recentContentsList;
     }
 
-    @WithSpan
+
     public List<Contents> esGetPlayingContentsByUserId(String userId) {
         List<Contents> playingContentsList = new ArrayList<>();
         try {

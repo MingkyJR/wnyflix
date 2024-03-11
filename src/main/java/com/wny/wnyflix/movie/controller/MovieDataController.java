@@ -9,7 +9,6 @@ import com.wny.wnyflix.movie.domain.Contents;
 import com.wny.wnyflix.movie.domain.Terms;
 import com.wny.wnyflix.movie.service.MovieService;
 import com.wny.wnyflix.user.domain.User;
-import io.opentelemetry.instrumentation.annotations.WithSpan;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +34,7 @@ public class MovieDataController {
         this.movieService = movieService;
     }
 
-    @WithSpan
+
     @GetMapping("/movie")
     public String getMovieData(Model model, Locale locale, HttpServletRequest request) {
 

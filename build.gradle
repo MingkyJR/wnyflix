@@ -33,17 +33,17 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 	testImplementation 'ch.qos.logback:logback-classic:1.5.0'
-	implementation("io.opentelemetry:opentelemetry-api")
-	implementation("io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter")
+//	implementation("io.opentelemetry:opentelemetry-api")
+//	implementation("io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter")
 
 }
 
-dependencyManagement {
-	imports {
-		mavenBom("io.opentelemetry:opentelemetry-bom:1.35.0")
-		mavenBom("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom-alpha:2.1.0-alpha")
-	}
-}
+//dependencyManagement {
+//	imports {
+//		mavenBom("io.opentelemetry:opentelemetry-bom:1.35.0")
+//		mavenBom("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom-alpha:2.1.0-alpha")
+//	}
+//}
 
 
 tasks.named('test') {

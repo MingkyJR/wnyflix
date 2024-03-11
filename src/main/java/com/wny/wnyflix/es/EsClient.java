@@ -4,8 +4,6 @@ import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.json.jackson.JacksonJsonpMapper;
 import co.elastic.clients.transport.ElasticsearchTransport;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
-import io.opentelemetry.instrumentation.annotations.WithSpan;
-import lombok.With;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -35,7 +33,6 @@ public class EsClient {
     @Value("${elastic.pwd}")
     private String pwd;
     @Bean
-    @WithSpan
     public ElasticsearchClient client() throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
 
         SSLContextBuilder sslContextBuilder = SSLContexts.custom()
