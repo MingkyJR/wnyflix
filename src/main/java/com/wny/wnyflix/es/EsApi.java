@@ -1,14 +1,13 @@
 package com.wny.wnyflix.es;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.Script;
 import co.elastic.clients.elasticsearch._types.aggregations.StringTermsBucket;
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.MultiMatchQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import co.elastic.clients.elasticsearch._types.query_dsl.TermQuery;
-import co.elastic.clients.elasticsearch.core.GetResponse;
-import co.elastic.clients.elasticsearch.core.SearchResponse;
-import co.elastic.clients.elasticsearch.core.SearchTemplateResponse;
+import co.elastic.clients.elasticsearch.core.*;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.json.JsonData;
 import com.wny.wnyflix.movie.domain.Contents;
@@ -361,6 +360,20 @@ public class EsApi {
         }
         return "error발생";
     }
+//    Script script =
+//
+//    public void play(String playId) {
+//        try {
+//            ElasticsearchClient client = esClient.client();
+//            UpdateRequest request = UpdateRequest.of(u -> u
+//                    .index("wy_count_test")
+//                    .id(playId)
+//                    .script()
+//            );
+//        } catch (Exception e) {
+//
+//        }
+//    }
 
 
 
