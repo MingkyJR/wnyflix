@@ -3,10 +3,7 @@ package com.wny.wnyflix.es;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.Script;
 import co.elastic.clients.elasticsearch._types.aggregations.StringTermsBucket;
-import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
-import co.elastic.clients.elasticsearch._types.query_dsl.MultiMatchQuery;
-import co.elastic.clients.elasticsearch._types.query_dsl.Query;
-import co.elastic.clients.elasticsearch._types.query_dsl.TermQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.*;
 import co.elastic.clients.elasticsearch.core.*;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.json.JsonData;
@@ -15,7 +12,6 @@ import com.wny.wnyflix.movie.domain.Terms;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.*;
 
@@ -247,7 +243,7 @@ public class EsApi {
 
     }
 
-
+//    @WithSpan
     public List<Contents> esGetTopContentsList(String country_code) {
         List<Contents> topContentsList = new ArrayList<>();
         try {
@@ -285,7 +281,7 @@ public class EsApi {
         return topContentsList;
     }
 
-
+//    @WithSpan
     public List<Contents> esGetRecentContentsList() {
         List<Contents> recentContentsList = new ArrayList<>();
         try {
@@ -309,7 +305,7 @@ public class EsApi {
         return recentContentsList;
     }
 
-
+//    @WithSpan
     public List<Contents> esGetPlayingContentsByUserId(String userId) {
         List<Contents> playingContentsList = new ArrayList<>();
         try {
@@ -361,6 +357,36 @@ public class EsApi {
         }
         return "error발생";
     }
+
+    public void updateCount(String playId) {
+        try {
+            Script inlineScript = Script.of(builder -> builder
+                    .inline(inline -> inline
+                            .source("ctx._source.show_count += 1")
+                            .lang("painless")
+                    )
+            );
+            ElasticsearchClient client = esClient.client();
+
+            UpdateRequest<Object, Object> request = UpdateRequest.of(r -> r
+                            .index("wy_wnyflix_data")
+                            .id(playId)
+                            .script(inlineScript)
+                    );
+
+
+
+            UpdateResponse<Object> updateResponse = client.update(request, Object.class);
+            log.info(updateResponse.toString());
+
+
+
+        } catch (Exception e) {
+            log.error("updateCount error : {}", e.toString());
+        }
+    }
+
+
 
 
 

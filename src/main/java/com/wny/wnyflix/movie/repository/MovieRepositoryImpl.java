@@ -62,5 +62,10 @@ public class MovieRepositoryImpl implements MovieRepository{
         return esApi.fake();
     }
 
+    @Override
+    public void updateCount(String playId){
+        esApi.updateCount(playId);
+    };
+
 
 }

@@ -36,8 +36,6 @@ dependencies {
 //	implementation("io.opentelemetry:opentelemetry-api")
 //	implementation("io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter")
 
-	implementation "io.opentelemetry.semconv:opentelemetry-semconv"
-
 
 }
 

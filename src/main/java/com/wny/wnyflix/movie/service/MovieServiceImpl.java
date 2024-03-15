@@ -64,4 +64,9 @@ public class MovieServiceImpl implements MovieService{
     public String fake() {
         return movieRepository.fake();
     }
+
+    @Override
+    public void updateCount(String playId) {
+        movieRepository.updateCount(playId);
+    }
 }
