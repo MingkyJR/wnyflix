@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.wny'
-version = '0.0.2-noneOtelStarter'
+version = 'otel_starter-0.0.1'
 
 java {
 	sourceCompatibility = '17'
@@ -35,6 +35,9 @@ dependencies {
 	testImplementation 'ch.qos.logback:logback-classic:1.5.0'
 //	implementation("io.opentelemetry:opentelemetry-api")
 //	implementation("io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter")
+
+	implementation "io.opentelemetry.semconv:opentelemetry-semconv"
+
 
 }
 

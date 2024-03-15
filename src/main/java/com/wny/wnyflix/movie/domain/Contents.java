@@ -58,8 +58,10 @@ public class Contents {
 
     private double score;
 
+    private int show_count;
 
-    public Contents(String backdrop_path, List<String> genres, int id, String title, String original_title, String overview, String director, List<String> cast, float popularity, String poster_path, String release_date, String contents_type, float vote_average, int vote_count, List<String> keywords, float score) {
+
+    public Contents(String backdrop_path, List<String> genres, int id, String title, String original_title, String overview, String director, List<String> cast, float popularity, String poster_path, String release_date, String contents_type, float vote_average, int vote_count, List<String> keywords, float score, int show_count) {
         this.backdrop_path = backdrop_path;
         this.genres = genres;
         this.id = id;
@@ -76,9 +78,10 @@ public class Contents {
         this.vote_count = vote_count;
         this.keywords = keywords;
         this.score = score;
+        this.show_count = show_count;
     }
 
-    public Contents(String backdrop_path, List<String> genres, int id, String title, String original_title, String overview, String director, List<String> cast, float popularity, String poster_path, String release_date, String contents_type, float vote_average, int vote_count, List<String> keywords) {
+    public Contents(String backdrop_path, List<String> genres, int id, String title, String original_title, String overview, String director, List<String> cast, float popularity, String poster_path, String release_date, String contents_type, float vote_average, int vote_count, List<String> keywords, int show_count) {
         this.backdrop_path = backdrop_path;
         this.genres = genres;
         this.id = id;
@@ -94,6 +97,7 @@ public class Contents {
         this.vote_average = vote_average;
         this.vote_count = vote_count;
         this.keywords = keywords;
+        this.show_count = show_count;
     }
 
     public Contents(Contents content, Double score) {

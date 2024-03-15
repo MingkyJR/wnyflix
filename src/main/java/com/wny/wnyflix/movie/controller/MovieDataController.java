@@ -38,27 +38,21 @@ public class MovieDataController {
     @GetMapping("/movie")
     public String getMovieData(Model model, Locale locale, HttpServletRequest request) {
 
-//        Tracer tracer = OpenTelemetry.noop().getTracerProvider().get("wnyflix");
-//
-//        Span span = tracer.spanBuilder("getMovieData").startSpan();
-//        try {
-            HttpSession session = request.getSession();
-            User user = (User)session.getAttribute("AUTHUSER");
-            List<Contents> topContentsList = movieService.getTopContentsList(user.getCountry_iso_code());
-            log.info("topContents : {}", topContentsList.size());
-            List<Contents> recentContentsList = movieService.getRecentContentsList();
-            List<Contents> playingContentsList = movieService.getPlayingContentsByUserId(user.getUserId());
-            log.info("playing : {}", playingContentsList.size());
-            List<Terms> topQuery = movieService.getTopQuery();
-            model.addAttribute("topContentsList", topContentsList);
-            model.addAttribute("topQueryTermsList", topQuery);
-            model.addAttribute("recentContentsList", recentContentsList);
-            model.addAttribute("playingContentsList", playingContentsList);
-            model.addAttribute("country", user.getCountry_name());
-//        } finally {
-//            span.end();
-//
-//        }
+        HttpSession session = request.getSession();
+        User user = (User)session.getAttribute("AUTHUSER");
+        List<Contents> topContentsList = movieService.getTopContentsList(user.getCountry_iso_code());
+        log.info("topContents : {}", topContentsList.size());
+        List<Contents> recentContentsList = movieService.getRecentContentsList();
+        List<Contents> playingContentsList = movieService.getPlayingContentsByUserId(user.getUserId());
+        log.info("playing : {}", playingContentsList.size());
+        List<Terms> topQuery = movieService.getTopQuery();
+        model.addAttribute("topContentsList", topContentsList);
+        model.addAttribute("topQueryTermsList", topQuery);
+        model.addAttribute("recentContentsList", recentContentsList);
+        model.addAttribute("playingContentsList", playingContentsList);
+        model.addAttribute("country", user.getCountry_name());
+
+
 
 
         return "movieMain/movie";
