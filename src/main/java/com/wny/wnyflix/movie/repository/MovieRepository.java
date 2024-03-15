@@ -26,4 +26,6 @@ public interface MovieRepository {
 
     public String fake();
 
+    public void updateCount(String playId);
+
 }

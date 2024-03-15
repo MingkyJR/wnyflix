@@ -3,6 +3,7 @@ package com.wny.wnyflix.movie.controller;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
 import co.elastic.clients.elasticsearch.core.BulkResponse;
+import com.wny.wnyflix.es.EsApi;
 import com.wny.wnyflix.es.EsClient;
 import com.wny.wnyflix.movie.MovieApi;
 import com.wny.wnyflix.movie.domain.Contents;
@@ -77,6 +78,7 @@ public class MovieDataController {
         String formatedNow = now.format(formatter);
         Map<String, String> result = new HashMap<>();
         log.info("playId : {}, userId : {}", playId, userId);
+        movieService.updateCount(playId);
         result.put("status", "재생됨");
         result.put("time", formatedNow);
         return result;

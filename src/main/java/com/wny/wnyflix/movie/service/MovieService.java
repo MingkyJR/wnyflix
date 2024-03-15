@@ -25,4 +25,6 @@ public interface MovieService {
     public List<Contents> getPlayingContentsByUserId(String userId);
 
     public String fake();
+
+    public void updateCount(String playId);
 }
