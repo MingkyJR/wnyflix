@@ -3,8 +3,11 @@ package com.wny.wnyflix.es;
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.json.jackson.JacksonJsonpMapper;
 import co.elastic.clients.transport.ElasticsearchTransport;
+import co.elastic.clients.transport.instrumentation.OpenTelemetryForElasticsearch;
 import co.elastic.clients.transport.rest_client.RestClientTransport;
+import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.instrumentation.annotations.WithSpan;
+import io.opentelemetry.sdk.OpenTelemetrySdk;
 import lombok.With;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
@@ -34,8 +37,8 @@ public class EsClient {
     private String name;
     @Value("${elastic.pwd}")
     private String pwd;
+//    @WithSpan
     @Bean
-    @WithSpan
     public ElasticsearchClient client() throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
 
         SSLContextBuilder sslContextBuilder = SSLContexts.custom()
@@ -56,8 +59,12 @@ public class EsClient {
                 )
                 .build();
 
+        OpenTelemetry customOtel = OpenTelemetrySdk.builder().build();
+
+        OpenTelemetryForElasticsearch esOtelInstrumentation = new OpenTelemetryForElasticsearch(customOtel, true);
+
         // Create the transport and the API client
-        ElasticsearchTransport transport = new RestClientTransport(restClient, new JacksonJsonpMapper());
+        ElasticsearchTransport transport = new RestClientTransport(restClient, new JacksonJsonpMapper(), null, esOtelInstrumentation);
 
         return new ElasticsearchClient(transport);
     }
