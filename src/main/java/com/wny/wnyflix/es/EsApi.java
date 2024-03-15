@@ -18,12 +18,13 @@ import io.opentelemetry.instrumentation.annotations.WithSpan;
 import lombok.With;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Slf4j
-@Service
+@Component
 public class EsApi {
 
     @Autowired
@@ -119,7 +120,7 @@ public class EsApi {
             for (Hit<Contents> hit: thits) {
                 Contents content = hit.source();
                 log.debug("Found titleResponse {} , score {}", content.getTitle(), hit.score());
-                Contents contentf = new Contents(content.getBackdrop_path(),content.getGenres(),content.getId(),content.getTitle(),content.getOriginal_title(),content.getOverview(),content.getDirector(),content.getCast(),content.getPopularity(),content.getPoster_path(),content.getRelease_date(),content.getContents_type(),content.getVote_average(),content.getVote_count(),content.getKeywords(), hit.score());
+                Contents contentf = new Contents(content.getBackdrop_path(),content.getGenres(),content.getId(),content.getTitle(),content.getOriginal_title(),content.getOverview(),content.getDirector(),content.getCast(),content.getPopularity(),content.getPoster_path(),content.getRelease_date(),content.getContents_type(),content.getVote_average(),content.getVote_count(),content.getKeywords(), hit.score(), content.getShow_count());
                 contentsList.add(contentf);
             }
 
@@ -139,7 +140,7 @@ public class EsApi {
             for (Hit<Contents> hit: chits) {
                 Contents content = hit.source();
                 log.debug("Found castResponse {} , score {}", content.getTitle(), hit.score());
-                Contents contentf = new Contents(content.getBackdrop_path(),content.getGenres(),content.getId(),content.getTitle(),content.getOriginal_title(),content.getOverview(),content.getDirector(),content.getCast(),content.getPopularity(),content.getPoster_path(),content.getRelease_date(),content.getContents_type(),content.getVote_average(),content.getVote_count(),content.getKeywords(), hit.score());
+                Contents contentf = new Contents(content.getBackdrop_path(),content.getGenres(),content.getId(),content.getTitle(),content.getOriginal_title(),content.getOverview(),content.getDirector(),content.getCast(),content.getPopularity(),content.getPoster_path(),content.getRelease_date(),content.getContents_type(),content.getVote_average(),content.getVote_count(),content.getKeywords(), hit.score(), content.getShow_count());
                 contentsList.add(contentf);
             }
 
@@ -250,7 +251,7 @@ public class EsApi {
 
     }
 
-    @WithSpan
+//    @WithSpan
     public List<Contents> esGetTopContentsList(String country_code) {
         List<Contents> topContentsList = new ArrayList<>();
         try {
@@ -288,7 +289,7 @@ public class EsApi {
         return topContentsList;
     }
 
-    @WithSpan
+//    @WithSpan
     public List<Contents> esGetRecentContentsList() {
         List<Contents> recentContentsList = new ArrayList<>();
         try {
@@ -312,7 +313,7 @@ public class EsApi {
         return recentContentsList;
     }
 
-    @WithSpan
+//    @WithSpan
     public List<Contents> esGetPlayingContentsByUserId(String userId) {
         List<Contents> playingContentsList = new ArrayList<>();
         try {
