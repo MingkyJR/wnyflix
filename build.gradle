@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.wny'
-version = 'otel_starter-0.0.1'
+version = 'noneOtelStarter-0.0.4'
 
 java {
 	sourceCompatibility = '17'
