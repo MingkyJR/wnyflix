@@ -116,6 +116,29 @@ public class LoginController {
         return "redirect:/movie";
     }
 
+    @GetMapping("/fromSearchUI")
+    public String fromSearchUI(HttpServletRequest request, String requestURI) {
+        try {
+            ElasticsearchClient client = esClient.client();
+            GetResponse<User> response = client.get(g -> g
+                            .index("wy_user_data")
+                            .id("elastic"),
+                    User.class
+            );
+
+            User user = response.source();
+            HttpSession session = request.getSession();
+            session.setAttribute("AUTHUSER", user);
+            log.info("logined id={}", user.getUserId());
+
+
+        }catch (Exception e) {
+            log.error("login error : {}", e.toString());
+        }
+
+        return "redirect:"+requestURI;
+    }
+
 
 
 }

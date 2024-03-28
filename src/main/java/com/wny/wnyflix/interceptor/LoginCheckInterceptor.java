@@ -15,7 +15,9 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
             throws Exception {
 
         String requestURI = request.getRequestURI();
+        String requestParam = request.getParameter("id");
         HttpSession session = request.getSession(false);
+
 
 
 
@@ -25,7 +27,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
             log.warn("[미인증 사용자 요청]");
 
             //로그인으로 redirect
-            response.sendRedirect("/");
+            response.sendRedirect("/fromSearchUI?requestURI="+requestURI+"?id="+requestParam);
             return false;
         }
         User user = (User)session.getAttribute("AUTHUSER");
